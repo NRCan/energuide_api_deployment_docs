@@ -1,0 +1,92 @@
+{
+"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "app_service_plan_id": {
+      "type": "string",
+      "metadata": {
+        "description": "App Service Plan ID"
+      }
+    },
+    "name": {
+      "type": "string",
+      "metadata": {
+        "description": "App Name"
+      }
+    },
+    "image": {
+      "type": "string",
+      "metadata": {
+        "description": "Docker image"
+       }
+     },
+     "collectionName": {
+       "type": "string",
+       "metadata": {
+         "description": "Collection Name"
+      }
+     },
+     "connectionString": {
+       "type": "string",
+       "metadata": {
+         "description": "Connection String"
+      }
+     },
+      "dbName": {
+        "type": "string",
+         "metadata": {
+           "description": "DB Name"
+       }
+     },
+       "apiKey": {
+         "type": "string",
+         "metadata": {
+           "description": "API Key"
+       }
+     }
+ },
+  "variables": {
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Web/sites",
+      "kind": "app,linux,container",
+      "name": "[parameters('name')]",
+      "properties": {
+        "siteConfig": {
+          "appSettings": [
+            {
+              "name": "WEBSITES_ENABLE_APP_SERVICE_STORAGE",
+              "value": "false"
+            },
+            {
+              "name": "NRCAN_COLLECTION_NAME",
+              "value": "[parameters('collectionName')]"
+            },
+            {
+              "name": "NRCAN_DB_CONNECTION_STRING",
+              "value": "[parameters('connectionString')]"
+            },
+            {  
+              "name": "NRCAN_DB_NAME",
+              "value": "[parameters('dbName')]"
+            },
+            {
+              "name": "NRCAN_ENGINE_API_KEY",
+              "value": "[parameters('apiKey')]"
+            },
+            {
+              "name" : "WEBSITE_HTTPLOGGING_RETENTION_DAYS",
+              "value": "1"
+            }
+          ],
+          "linuxFxVersion": "[concat('DOCKER|', parameters('image'))]"
+        },
+        "name": "[parameters('name')]",
+        "serverFarmId": "[parameters('app_service_plan_id')]"
+      },
+      "apiVersion": "2016-08-01",
+      "location": "[resourceGroup().location]"
+    }
+  ]
+}
