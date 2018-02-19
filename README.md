@@ -3,7 +3,7 @@
       * [CircleCI](#circleci)
       * [Docker Hub](#docker-hub)
       * [Azure Web App for Containers](#azure-web-app-for-containers)
-      * [Troubleshooting](#troubleshooting)
+   * [Troubleshooting](#troubleshooting)
 
 NRCAN API
 =========
@@ -66,5 +66,5 @@ In case you lose the CI/CD url, you can find it using this url:
 
 
 Troubleshooting
----------------
+===============
 
