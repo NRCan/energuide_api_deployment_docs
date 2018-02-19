@@ -37,16 +37,18 @@ The template will ask for `App Service Plan ID`, `App Name`, `Docker Image`, `Co
 
 Enabling Continuous Deployment
 ------------------------------
-```az webapp deployment container config -n nrcan123252637 -g templatenrcan -e true
-{
+`az webapp deployment container config -n nrcan123252637 -g templatenrcan -e true`
+
+```{
   "CI_CD_URL": "https://$nrcan123252637:PASSWORDHERE@nrcan123252637.scm.azurewebsites.net/docker/hook",
   "DOCKER_ENABLE_CI": true
 }```
 
 In case you lose the CI/CD url, you can find it using this url:
 
-```az webapp deployment container show-cd-url -n nrcan123252637 -g templatenrcan
-{
+`az webapp deployment container show-cd-url -n nrcan123252637 -g templatenrcan`
+
+```{
   "CI_CD_URL": "https://$nrcan123252637:PASSWORDHERE@nrcan123252637.scm.azurewebsites.net/docker/hook",
   "DOCKER_ENABLE_CI": true
 }
