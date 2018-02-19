@@ -1,0 +1,50 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "currentServiceplanId": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Optional. Use an existing serviceplan for deployment"
+      }
+    },
+    "serviceplanSkuName": {
+      "type": "string",
+      "defaultValue": "B1",
+      "allowedValues": [
+        "B1",
+        "B2",
+        "B3",
+      ],
+      "metadata": {
+        "description": "Describes plan's pricing tier and capacity. Check details at https://azure.microsoft.com/en-us/pricing/details/app-service/"
+      }
+    }
+  },
+  "variables": {
+    "prefix": "nrcanapisp",
+    "serviceplanName": "[concat(variables('prefix'), 'serviceplan')]",
+    "serviceplanId": "[variables('serviceplanIdSelector')[string(equals(length(parameters('currentServiceplanId')), 0))]]",
+    "serviceplanIdSelector": {
+      "true": "[resourceId('Microsoft.Web/serverfarms', variables('serviceplanName'))]",
+      "false": "[parameters('currentServiceplanId')]"
+    }
+  },
+  "resources": [
+    {
+      "name": "[variables('serviceplanName')]",
+      "condition": "[equals(length(parameters('currentServiceplanId')), 0)]",
+      "type": "Microsoft.Web/serverfarms",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-08-01",
+      "sku": {
+        "name": "[parameters('serviceplanSkuName')]"
+      },
+      "properties": {
+        "name": "[variables('serviceplanName')]",
+        "numberOfWorkers": 1
+      }
+    },
+  ],
+}
