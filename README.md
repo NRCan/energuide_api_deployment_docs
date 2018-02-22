@@ -3,6 +3,7 @@
       * [CircleCI](#circleci)
       * [Docker Hub](#docker-hub)
       * [Azure Web App for Containers](#azure-web-app-for-containers)
+      * [DNS](#dns)
    * [Troubleshooting](#troubleshooting)
 
 NRCAN API
@@ -62,8 +63,13 @@ In case you lose the CI/CD url, you can find it using this url:
 ```
 
 * Add the CI_CD_URL URL to Docker Hub.
-** On your Docker Hub Repository, click Webhooks and add your new webhook URL.
+** On your Docker Hub Repository, click Webhooks and add your new webhook URL
 
+DNS
+===
+Configure a custom DNS name: In the Azure portal, open the API resource, click "Custom domains", click "+ Add hostname", enter your custom hostname. You must create CNAME pointing to the Azure DNS name.
+
+(this should be added to the ARM template....)
 
 Troubleshooting
 ===============
