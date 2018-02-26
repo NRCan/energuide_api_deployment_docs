@@ -1,8 +1,9 @@
-   * [NRCAN API](#nrcan-api)
+   * [NRCAN API amd ETL](#nrcan-api)
    * [Configuration](#configuration)
       * [CircleCI](#circleci)
       * [Docker Hub](#docker-hub)
       * [Azure Web App for Containers](#azure-web-app-for-containers)
+      * [Azure Function App](#azure-function-app)
       * [DNS](#dns)
    * [Troubleshooting](#troubleshooting)
 
@@ -17,13 +18,20 @@ Configuration
 
 CircleCI
 --------
-We're using Circle CI to run continuous integration and continuous deployment of the NRCAN API repository. There's a job called `deploy` in `.circle/config.yml` that controls the build and deploy of the Docker image.  For each commit to master, the `deploy` job will build a docker image and push it to Docker Hub with tag "latest" as well as a version number as defined by $VERSION in `.circleci/config.yml`
+We're using Circle CI to run continuous integration and continuous deployment of the NRCAN API repository. There's a job called `deploy` in `.circle/config.yml` that controls the build and deploy of the Docker image.  For each commit to master, the `api_deploy` and `etl_deploy` jobs will build a docker image and push it to Docker Hub with tag "latest" as well as a version number as defined by $VERSION in `.circleci/config.yml`
 
 Docker Hub
 ----------
 When a new image arrives at Docker Hub, a webhook is sent to Azure and the Azure App Service for Containers will download and deploy the "latest" image.
 
-Azure Web App for Containers
+The relevant images are:
+`docker.io/cdssnc/nrcan_api:latest`
+and
+`docker.io/cdssnc/nrcan_etl:latest`
+
+When a new image arrives at Docker Hub, Docker will send a webhook to either Azure WEb App for Containers or Azure Function App.  
+
+Azure Web App for Containers (for API only)
 ----------------------------
 
 * Setup
@@ -64,6 +72,11 @@ In case you lose the CI/CD url, you can find it using this url:
 
 * Add the CI_CD_URL URL to Docker Hub.
 ** On your Docker Hub Repository, click Webhooks and add your new webhook URL
+
+Azure Function App
+==================
+
+The ETL runs as an Azure Function App. There's an ARM template called `deploy_etl.json` that will set up the function service for you. You need to specify the the app name, docker image, and the storage connection string.
 
 DNS
 ===
