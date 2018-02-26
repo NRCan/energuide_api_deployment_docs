@@ -1,4 +1,5 @@
    * [NRCAN API amd ETL](#nrcan-api)
+      * [Prerequisites](#prerequisites)
    * [Configuration](#configuration)
       * [CircleCI](#circleci)
       * [Docker Hub](#docker-hub)
@@ -12,6 +13,14 @@ NRCAN API
 
 rough docs.
 
+Prerequisites
+-------------
+
+The following documentation assume you have set up the following:
+
+* A Resource Group to place the application in
+* A Consumption Plan
+* Access to the Azure CLI (on your desktop or a server with network access to Azure)
 
 Configuration
 ==========
@@ -74,7 +83,7 @@ In case you lose the CI/CD url, you can find it using this url:
 ** On your Docker Hub Repository, click Webhooks and add your new webhook URL
 
 Azure Function App
-==================
+------------------
 
 The ETL runs as an Azure Function App. There's an ARM template called `deploy_etl.json` that will set up the function service for you. You need to specify the the app name, docker image, and the storage connection string.
 
