@@ -51,7 +51,7 @@ If you don't already have a service plan created, use `serviceplan.json` to crea
 az group deployment create --resource-group nrcanapi --template-file serviceplan.json
 ```
 
-The Azure Web App for Containers is created using an ARM template called deployazure.json. The template should be executed as follows:
+The Azure Web App for Containers is created using an ARM template called deploy_api.json. The template should be executed as follows:
 ```
 az group deployment create -n ContainerName --resource-group ResourceGoupName --template-file deployazure.json
 ```
@@ -95,4 +95,6 @@ Configure a custom DNS name: In the Azure portal, open the API resource, click "
 
 Troubleshooting
 ===============
+
+`az webapp log show --resource-group Group-Name --name App-Name`
 
