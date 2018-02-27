@@ -16,10 +16,10 @@ rough docs.
 Prerequisites
 -------------
 
-The following documentation assume you have set up the following:
+The following documentation assumes you have set up the following:
 
 * A Resource Group to place the application in
-* A Consumption Plan
+* A Service Plan
 * Access to the Azure CLI (on your desktop or a server with network access to Azure)
 
 Configuration
