@@ -44,15 +44,27 @@ Azure Web App for Containers (for API only)
 ----------------------------
 
 
+Create a Resource Group:
+
+```
+az group create --name MyGroup -l canadaeast
+```
+
+Create a Service Plan
+
+```
+az appservice plan create -g NRCanGroup -n webapplinux --is-linux -l canadaeast
+```
+
 The Azure Web App for Containers is created using an ARM template called deploy_api.json. The template should be executed as follows:
 ```
-az group deployment create -n ContainerName --resource-group ResourceGoupName --template-file deploy_api.json
+az group deployment create -n AppName --resource-group ResourceGoupName --template-file deploy_api.json
 ```
 The template will ask for `App Service Plan ID`, `App Name`, `Docker Image`, `Collection Name`, `Connection String`, `DB Name`, and `API Key`
 
 * Enabling Continuous Deployment
 
-`az webapp deployment container config -n nrcan123252637 -g templatenrcan -e true`
+`az webapp deployment container config -n AppName -g ResourceGroupName -e true`
 
 ```
 {
@@ -72,13 +84,12 @@ In case you lose the CI/CD url, you can find it using this url:
 }
 ```
 
-* Add the CI_CD_URL URL to Docker Hub.
-** On your Docker Hub Repository, click Webhooks and add your new webhook URL
+Add the CI_CD_URL URL to Docker Hub. On your Docker Hub Repository, click Webhooks and add your new webhook URL
 
 Azure Function App
 ------------------
 
-The ETL runs as an Azure Function App. There's an ARM template called `deploy_etl.json` that will set up the function service for you. You need to specify the the app name, docker image, and the storage connection string.
+The Exndpoint Extractor runs as an Azure Function App. There's an ARM template called `deploy_etl.json` that will set up the function service for you. You need to specify the the app name, docker image, and the storage connection string.
 
 DNS
 ===
