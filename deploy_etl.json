@@ -1,0 +1,49 @@
+{
+"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "app_service_plan_id": {
+      "type": "string",
+      "metadata": {
+        "description": "App Service Plan ID"
+      }
+    },
+    "name": {
+      "type": "string",
+      "metadata": {
+        "description": "App Name"
+      }
+    },
+    "image": {
+      "type": "string",
+      "metadata": {
+        "description": "Docker image"
+       }
+     }
+ },
+  "variables": {
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Web/sites",
+      "kind": "functionapp,linux,container",
+      "name": "[parameters('name')]",
+      "properties": {
+        "siteConfig": {
+          "appSettings": [
+            {
+              "name": "WEBSITES_PORT",
+              "value": "5000"
+            }
+
+          ],
+          "linuxFxVersion": "[concat('DOCKER|', parameters('image'))]"
+        },
+        "name": "[parameters('name')]",
+        "serverFarmId": "[parameters('app_service_plan_id')]"
+      },
+      "apiVersion": "2016-08-01",
+      "location": "[resourceGroup().location]"
+    }
+  ]
+}
