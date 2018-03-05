@@ -43,17 +43,10 @@ When a new image arrives at Docker Hub, Docker will send a webhook to either Azu
 Azure Web App for Containers (for API only)
 ----------------------------
 
-* Setup
-
-If you don't already have a service plan created, use `serviceplan.json` to create a new service plan. The default setting creates a B1 (Basic 1) service plan which should be adequate.
-
-```
-az group deployment create --resource-group nrcanapi --template-file serviceplan.json
-```
 
 The Azure Web App for Containers is created using an ARM template called deploy_api.json. The template should be executed as follows:
 ```
-az group deployment create -n ContainerName --resource-group ResourceGoupName --template-file deployazure.json
+az group deployment create -n ContainerName --resource-group ResourceGoupName --template-file deploy_api.json
 ```
 The template will ask for `App Service Plan ID`, `App Name`, `Docker Image`, `Collection Name`, `Connection String`, `DB Name`, and `API Key`
 
