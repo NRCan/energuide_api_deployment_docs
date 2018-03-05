@@ -1,4 +1,4 @@
-   * [NRCAN API amd ETL](#nrcan-api)
+   * [NRCAN API and Endpoint](#nrcan)
       * [Prerequisites](#prerequisites)
    * [Configuration](#configuration)
       * [CircleCI](#circleci)
@@ -8,10 +8,11 @@
       * [DNS](#dns)
    * [Troubleshooting](#troubleshooting)
 
-NRCAN API
+NRCAN
 =========
 
-rough docs.
+Installation documentation for the NRCan API and Endpoint.
+
 
 Prerequisites
 -------------
@@ -27,7 +28,7 @@ Configuration
 
 CircleCI
 --------
-We're using Circle CI to run continuous integration and continuous deployment of the NRCAN API repository. There's a job called `deploy` in `.circle/config.yml` that controls the build and deploy of the Docker image.  For each commit to master, the `api_deploy` and `etl_deploy` jobs will build a docker image and push it to Docker Hub with tag "latest" as well as a version number as defined by $VERSION in `.circleci/config.yml`
+We're using Circle CI to run continuous integration and continuous deployment of the NRCAN API repository. There's a job called `deploy` in `.circle/config.yml` that controls the build and deploy of the Docker image.  For each commit to master, the `deploy_api` and `deploy_etl` jobs will build a docker image and push it to Docker Hub with tag "latest" as well as the SHA from the last commit.  
 
 Docker Hub
 ----------
