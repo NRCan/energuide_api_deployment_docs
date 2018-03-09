@@ -33,7 +33,7 @@
           "appSettings": [
             {
               "name": "WEBSITES_PORT",
-              "value": "5000"
+              "value": "5010"
             }
 
           ],
