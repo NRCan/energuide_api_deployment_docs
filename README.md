@@ -1,4 +1,4 @@
-   * [NRCAN API and Endpoint](#nrcan)
+   * [NRCAN API, ETL and Endpoint](#nrcan)
       * [Prerequisites](#prerequisites)
    * [Configuration](#configuration)
       * [CircleCI](#circleci)
@@ -90,7 +90,7 @@ Add the CI_CD_URL URL to Docker Hub. On your Docker Hub Repository, click Webhoo
 Azure Function App
 ------------------
 
-The Exndpoint Extractor runs as an Azure Function App. There's an ARM template called `deploy_etl.json` that will set up the function service for you. You need to specify the the app name, docker image, and the storage connection string.
+The Endpoint Extractor runs as an Azure Function App. There's an ARM template called `deploy_etl.json` that will set up the function service for you. You need to specify the the app name, docker image, and the storage connection string.
 
 The ETL also runs as an Azure Function App. There's an ARM template called `deploy_etl.json` that will set up the function app.  You need to specify the app name and docker image.
 
