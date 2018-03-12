@@ -97,8 +97,7 @@ The ETL also runs as an Azure Function App. There's an ARM template called `depl
 
 DNS
 ===
-Configure a custom DNS name: In the Azure portal, open the API resource, click "Custom domains", click "+ Add hostname", enter your custom hostname. You must create CNAME pointing to the Azure DNS name.
-
+Configure a custom DNS name: In the Azure portal, open the App Resource, click "Custom domains", click "+ Add hostname", enter your custom hostname. You must create a CNAME or A record prior prior adding the custom domain.
 (this should be added to the ARM template....)
 
 Troubleshooting
