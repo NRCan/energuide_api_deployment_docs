@@ -43,7 +43,13 @@
          "metadata": {
            "description": "Endpoint Secret Key"
        }
-     }
+     },
+      "tl_address": {
+        "type": "string", 
+        "metadata": {
+           "description": "TL Address"
+        }
+      }
  },
   "variables": {
   },
