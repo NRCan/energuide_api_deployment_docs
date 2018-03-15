@@ -19,7 +19,38 @@
       "metadata": {
         "description": "Docker image"
        }
-     }
+     },
+    "dbName": {
+      "type": "string",
+      "metadata": {
+        "description": "Energuide DB Name"
+      }
+     },
+    "collectionName": {
+      "type": "string",
+      "metadata": {
+        "description": "Energuide Collection"
+      }
+     },
+     "username": {
+       "type": "string", 
+       "metadata": {
+         "description": "Energuide Username"
+        }
+      },
+      "password": {
+        "type": "string", 
+        "metadata": {
+           "description": "Eneruide Password"
+         }
+       },
+       "host": {
+         "type": "string",
+         "metadata": {
+           "description": "Energuide Host"
+         }
+        }
+ 
  },
   "variables": {
   },
@@ -34,8 +65,23 @@
             {
               "name": "WEBSITES_PORT",
               "value": "5010"
+            },
+	    {
+              "name": "ENERGUIDE_COLLECTION",
+              "value": "[parameters('collectionName')]"
+            },
+            {
+              "name": "ENERGUIDE_USERNAME",
+              "value": "[parameters('username')]"
+            },
+            {
+              "name": "ENERGUIDE_PASSWORD",
+              "value": "[parameters('password')]"
+            },
+            {
+              "name": "ENERGUIDE_HOST",
+              "value": "[parameters('host')]"
             }
-
           ],
           "linuxFxVersion": "[concat('DOCKER|', parameters('image'))]"
         },
