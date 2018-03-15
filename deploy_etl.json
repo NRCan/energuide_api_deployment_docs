@@ -49,8 +49,31 @@
          "metadata": {
            "description": "Energuide Host"
          }
-        }
- 
+        },
+       "secretKey": {
+          "type": "string",
+          "metadata": {
+             "description": "Endpoint Secret"
+           }
+         },
+       "storageAccount": {
+           "type": "string",
+            "metadata": {
+               "description": "Endpoint Storage Account"
+            }
+         },
+        "storageKey": {
+            "type": "string",
+            "metadata": {
+              "description": "Endpoint Storage Key"
+            }
+          },
+          "storageContainer": {
+             "type": "string",
+             "metadata": {
+                "description": "Endpoint Storage Container"
+             }
+           }
  },
   "variables": {
   },
@@ -81,7 +104,23 @@
             {
               "name": "ENERGUIDE_HOST",
               "value": "[parameters('host')]"
-            }
+            },
+            {
+              "name": "EXTRACT_ENDPOINT_STORAGE_ACCOUNT",
+              "value": "[parameters('storageAccount')]"
+            },
+            {
+              "name": "EXTRACT_ENDPOINT_STORAGE_KEY",
+              "value": "[parameters('storageKey')]"
+            },
+            {
+              "name": "EXTRACT_ENDPOINT_CONTAINER",
+              "value": "[parameters('endpointContainer')]"
+            },
+            {
+              "name": "ETL_SECRET_KEY",
+              "value": "[parameters('secretKey')]"
+            },
           ],
           "linuxFxVersion": "[concat('DOCKER|', parameters('image'))]"
         },
