@@ -115,14 +115,16 @@
             },
             {
               "name": "EXTRACT_ENDPOINT_CONTAINER",
-              "value": "[parameters('endpointContainer')]"
+              "value": "[parameters('storageContainer')]"
             },
             {
               "name": "ETL_SECRET_KEY",
               "value": "[parameters('secretKey')]"
             },
           ],
-          "linuxFxVersion": "[concat('DOCKER|', parameters('image'))]"
+          "linuxFxVersion": "[concat('DOCKER|', parameters('image'))]",
+          "detailedErrorLogginEnabled": "true",
+          "httpLoggingEnabled": "true"
         },
         "name": "[parameters('name')]",
         "serverFarmId": "[parameters('app_service_plan_id')]"
