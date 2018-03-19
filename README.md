@@ -97,20 +97,6 @@ The template will ask for `App Service Plan ID`, `App Name`, `Docker Image`, `Co
 }
 ```
 
-In case you lose the CI/CD url, you can find it using this url:
-
-`az webapp deployment container show-cd-url -n nrcan123252637 -g templatenrcan`
-
-```
-{
-  "CI_CD_URL": "https://$nrcan123252637:PASSWORDHERE@nrcan123252637.scm.azurewebsites.net/docker/hook",
-  "DOCKER_ENABLE_CI": true
-}
-```
-
-Add the CI_CD_URL URL to Docker Hub. On your Docker Hub Repository, click Webhooks and add your new webhook URL
-
-
 
 Azure Function App
 ------------------
@@ -128,6 +114,19 @@ Docker Hub
 ----------
 When a new image arrives at Docker Hub, a webhook is sent to Azure and the Azure App Service for Containers will download and deploy the "latest" image.
 
+Get the webhook ID:
+
+`az webapp deployment container show-cd-url -n appName -g MyGroup`
+
+```
+{
+  "CI_CD_URL": "https://$appName:PASSWORDHERE@appName.scm.azurewebsites.net/docker/hook",
+  "DOCKER_ENABLE_CI": true
+}
+
+Add the CI_CD_URL to your Docker repository: Click Webhooks, and add your Webhook URL.
+
+```
 The relevant images are:
 `docker.io/cdssnc/nrcan_api:latest`
 and
