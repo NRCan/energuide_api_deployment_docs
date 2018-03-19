@@ -123,16 +123,13 @@ Get the webhook ID:
   "CI_CD_URL": "https://$appName:PASSWORDHERE@appName.scm.azurewebsites.net/docker/hook",
   "DOCKER_ENABLE_CI": true
 }
+```
 
 Add the CI_CD_URL to your Docker repository: Click Webhooks, and add your Webhook URL.
 
-```
-The relevant images are:
-`docker.io/cdssnc/nrcan_api:latest`
-and
-`docker.io/cdssnc/nrcan_etl:latest`
 
-When a new image arrives at Docker Hub, Docker will send a webhook to either Azure WEb App for Containers or Azure Function App.  
+When a new image arrives at Docker Hub, Docker will send a webhook to the appropriate NRCan Azure resources.
+
 
 
 DNS
