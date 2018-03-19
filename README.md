@@ -9,7 +9,7 @@
    * [Troubleshooting](#troubleshooting)
 
 NRCAN
-=====
+------
 
 Deployment documentation for the NRCan API, Endpoint and Extractor.
 
@@ -72,7 +72,7 @@ az appservice plan create -g NRCanGroup -n webapplinux --is-linux -l canadaeast
 ```
 
 Azure Web App for Containers
-============================
+----------------------------
 
 Log in to the Service Principal
 
