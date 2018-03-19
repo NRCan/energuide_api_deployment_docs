@@ -1,5 +1,4 @@
    * [NRCAN API, ETL and Endpoint](#nrcan)
-      * [Prerequisites](#prerequisites)
    * [Configuration](#configuration)
       * [Azure Setup](#azure-setup)
       * [Azure Web App for Containers](#azure-web-app-for-containers)
@@ -10,22 +9,12 @@
    * [Troubleshooting](#troubleshooting)
 
 NRCAN
-=========
+=====
 
-Installation documentation for the NRCan API and Endpoint.
-
-
-Prerequisites
--------------
-
-The following documentation assumes you have set up the following:
-
-* A Resource Group to place the application in
-* A Service Plan
-* Access to the Azure CLI (on your desktop or a server with network access to Azure)
+Deployment documentation for the NRCan API, Endpoint and Extractor.
 
 Configuration
-==========
+=============
 
 
 Azure Setup
