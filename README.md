@@ -1,10 +1,11 @@
    * [NRCAN API, ETL and Endpoint](#nrcan)
       * [Prerequisites](#prerequisites)
    * [Configuration](#configuration)
-      * [CircleCI](#circleci)
-      * [Docker Hub](#docker-hub)
+      * [Azure Setup](#azure-setup)
       * [Azure Web App for Containers](#azure-web-app-for-containers)
       * [Azure Function App](#azure-function-app)
+      * [CircleCI](#circleci)
+      * [Docker Hub](#docker-hub)
       * [DNS](#dns)
    * [Troubleshooting](#troubleshooting)
 
@@ -26,29 +27,53 @@ The following documentation assumes you have set up the following:
 Configuration
 ==========
 
-CircleCI
---------
-We're using Circle CI to run continuous integration and continuous deployment of the NRCAN API repository. There's a job called `deploy` in `.circle/config.yml` that controls the build and deploy of the Docker image.  For each commit to master, the `deploy_api` and `deploy_etl` jobs will build a docker image and push it to Docker Hub with tag "latest" as well as the SHA from the last commit.  
 
-Docker Hub
-----------
-When a new image arrives at Docker Hub, a webhook is sent to Azure and the Azure App Service for Containers will download and deploy the "latest" image.
+Azure Setup
+-----------
 
-The relevant images are:
-`docker.io/cdssnc/nrcan_api:latest`
-and
-`docker.io/cdssnc/nrcan_etl:latest`
 
-When a new image arrives at Docker Hub, Docker will send a webhook to either Azure WEb App for Containers or Azure Function App.  
+Use the appropriate subscription id 
 
-Azure Web App for Containers (for API only)
-----------------------------
-
+```
+az account set -s "my subscription name"
+```
 
 Create a Resource Group:
 
 ```
 az group create --name MyGroup -l canadaeast
+```
+
+Set the application name
+```
+appName="nrcanapi"
+```
+
+Create an Azure AD app
+```az ad app create \
+    --display-name $appName \
+    --homepage "https://energuideapi.ca" \
+    --identifier-uris [https://energuideapi.ca](https://energuideapi.ca)
+```
+
+Get the appID
+
+```appId=$(az ad app list --display-name $appName --query [].appId -o tsv)
+```
+
+Set a password
+
+```
+spPassword="SecurePassword123"
+```
+
+Now create the service principal and restrict it to the ResourceGroup you created above.
+
+
+```
+az ad sp create-for-rbac --name $appId --password $spPassword \
+                --role contributor \
+                --scopes /subscriptions/$subscriptionId/resourceGroups/MyGroup
 ```
 
 Create a Service Plan
@@ -57,9 +82,18 @@ Create a Service Plan
 az appservice plan create -g NRCanGroup -n webapplinux --is-linux -l canadaeast
 ```
 
+Azure Web App for Containers
+============================
+
+Log in to the Service Principal
+
+```
+az login --service-principal -u sp-id --tenant tenant-id
+```
+
 The Azure Web App for Containers is created using an ARM template called deploy_api.json. The template should be executed as follows:
 ```
-az group deployment create -n AppName --resource-group ResourceGoupName --template-file deploy_api.json
+az group deployment create -n AppName --resource-group MyGroup --template-file deploy_api.json
 ```
 The template will ask for `App Service Plan ID`, `App Name`, `Docker Image`, `Collection Name`, `Connection String`, `DB Name`, and `API Key`
 
@@ -87,12 +121,30 @@ In case you lose the CI/CD url, you can find it using this url:
 
 Add the CI_CD_URL URL to Docker Hub. On your Docker Hub Repository, click Webhooks and add your new webhook URL
 
+
+
 Azure Function App
 ------------------
 
 The Endpoint Extractor runs as an Azure Function App. There's an ARM template called `deploy_etl.json` that will set up the function service for you. You need to specify the the app name, docker image, and the storage connection string.
 
 The ETL also runs as an Azure Function App. There's an ARM template called `deploy_etl.json` that will set up the function app.  You need to specify the app name and docker image.
+
+
+CircleCI
+--------
+We're using Circle CI to run continuous integration and continuous deployment of the NRCAN API repository. There's a job called `deploy` in `.circle/config.yml` that controls the build and deploy of the Docker image.  For each commit to master, the `deploy_api` and `deploy_etl` jobs will build a docker image and push it to Docker Hub with tag "latest" as well as the SHA from the last commit.  
+
+Docker Hub
+----------
+When a new image arrives at Docker Hub, a webhook is sent to Azure and the Azure App Service for Containers will download and deploy the "latest" image.
+
+The relevant images are:
+`docker.io/cdssnc/nrcan_api:latest`
+and
+`docker.io/cdssnc/nrcan_etl:latest`
+
+When a new image arrives at Docker Hub, Docker will send a webhook to either Azure WEb App for Containers or Azure Function App.  
 
 
 DNS
