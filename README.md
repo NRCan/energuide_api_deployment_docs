@@ -39,7 +39,9 @@ appName="nrcanapi"
 ```
 
 Create an Azure AD app
-```az ad app create \
+
+```
+az ad app create \
     --display-name $appName \
     --homepage "https://energuideapi.ca" \
     --identifier-uris [https://energuideapi.ca](https://energuideapi.ca)
@@ -47,7 +49,8 @@ Create an Azure AD app
 
 Get the appID
 
-```appId=$(az ad app list --display-name $appName --query [].appId -o tsv)
+```
+appId=$(az ad app list --display-name $appName --query [].appId -o tsv)
 ```
 
 Set a password
