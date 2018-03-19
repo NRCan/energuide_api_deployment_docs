@@ -124,7 +124,8 @@
           ],
           "linuxFxVersion": "[concat('DOCKER|', parameters('image'))]",
           "detailedErrorLogginEnabled": "true",
-          "httpLoggingEnabled": "true"
+          "httpLoggingEnabled": "true",
+          "ENERGUIDE_PRODUCTION": "1"
         },
         "name": "[parameters('name')]",
         "serverFarmId": "[parameters('app_service_plan_id')]"
