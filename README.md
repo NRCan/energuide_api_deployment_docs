@@ -1,6 +1,5 @@
 
-CircleCI Status: [![CircleCI](https://circleci.com/gh/cds-snc/nrcan-infra.svg?style=svg)](https://circleci.com/gh/cds-snc/nrcan-infra)
-
+[![CircleCI](https://circleci.com/gh/cds-snc/nrcan-infra.svg?style=svg)](https://circleci.com/gh/cds-snc/nrcan-infra)
 
 
    * [NRCAN API, ETL and Endpoint](#nrcan)
