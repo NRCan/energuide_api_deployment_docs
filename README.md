@@ -143,5 +143,6 @@ Configure a custom DNS name: In the Azure portal, open the App Resource, click "
 Troubleshooting
 ===============
 
-`az webapp log show --resource-group Group-Name --name App-Name`
+Download all logs as a zip:
+`az webapp log download --resource-group MyGroup --name AppName`
 
