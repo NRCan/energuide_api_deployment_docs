@@ -5,7 +5,7 @@ jobs:
       - image: microsoft/azure-cli:latest
     steps:
       - checkout
-      - run: validate.sh
+      - run: scripts/validate.sh
 workflows:
   version: 2
   build_and_test:
