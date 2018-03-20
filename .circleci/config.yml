@@ -5,8 +5,7 @@ jobs:
       - image: microsoft/azure-cli:latest
     steps:
       - checkout
-      - run: az login --service-principal -u ${AZURE_SERVICE_PRINCIPAL} --tenant ${AZURE_TENANT_ID} -p ${AZURE_SERVICE_PRINCIPAL_PASSWORD}
-      - run: az group deployment validate --resource-group NRCanGroup --template-file deploy_etl.json --parameters params.json
+      - run: validate.sh
 workflows:
   version: 2
   build_and_test:
