@@ -1,0 +1,44 @@
+{
+"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "app_service_plan_id": {
+    "value": "webapp"
+    },
+    "name": {
+      "value": "AppName"
+    },
+    "image": {
+      "value": "Dockerimage"
+     },
+    "dbName": {
+       "value": "Energuide DB Name"
+     },
+    "collectionName": {
+       "value": "Energuide Collection"
+     },
+     "username": {
+       "value": "Energuide Username"
+      },
+      "password": {
+        "value": "Eneruide Password"
+       },
+       "host": {
+         "value": "Energuide Host"
+       },
+       "secretKey": {
+         "value": "Endpoint Secret"
+       },
+       "storageAccount": {
+         "value": "Endpoint Storage Account"
+       },
+        "storageKey": {
+          "value": "Endpoint Storage Key"
+       },
+         "storageContainer": {
+           "value": "Endpoint Storage Container"
+        },
+    },
+}
+
+
