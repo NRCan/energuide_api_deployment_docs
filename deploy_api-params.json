@@ -1,0 +1,26 @@
+{
+  "parameters": {
+    "app_service_plan_id": {
+    "value": "appserviceid"
+    },
+    "name": {
+    "value": "application name"
+    },
+    "collectionName": {
+    "value": "collection name"
+    },
+    "image": {
+     "value": "docker image" 
+    },
+     "connectionString": {
+     "value": "connectionString"
+    },
+     "dbName": {
+     "value": "dbName" 
+    },
+     "apiKey": {
+     "value": "api key"
+    },
+  },
+}
+
