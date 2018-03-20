@@ -1,6 +1,6 @@
 #!/bin/sh
 
-APPS="deploy_etl" 
+APPS="deploy_etl deploy_endpoint" 
 RESOURCE_GROUP="NRCanGroup"
 
 
