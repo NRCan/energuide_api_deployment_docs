@@ -1,20 +1,28 @@
 {
   "parameters": {
     "app_service_plan_id": {
-      "name": "AppService"
+      "value": "AppService"
+    },
     "name": {
-      "name": "AppName"
+      "value": "AppName"
+    },
     "image": {
-      "name": "Docker Image"
+      "value": "Docker Image"
+    },
     "storageAccount": {
-      "name": "Storage Account"
+      "value": "Storage Account"
+    },
     "endpointContainer": {
-      "name": "Endpoint Container"
+      "value": "Endpoint Container"
+    },
     "storageKey": {
-      "name": "Storage Key"
+      "value": "Storage Key"
+    },
     "secretKey": {
-      "name": "Secret Key"
+      "value": "Secret Key"
+    },
     "tl_address": {
-      "name: "TL ADDRESS"
-      }
+      "value": "TL ADDRESS"
+    },
+  },
 }
