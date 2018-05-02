@@ -1,16 +1,7 @@
 
+[La version française suit.](#---------------------------------------------------------------------)
+
 [![CircleCI](https://circleci.com/gh/cds-snc/nrcan-infra.svg?style=svg)](https://circleci.com/gh/cds-snc/nrcan-infra)
-
-
-   * [NRCAN API, ETL and Endpoint](#nrcan)
-   * [Configuration](#configuration)
-      * [Azure Setup](#azure-setup)
-      * [Azure Web App for Containers](#azure-web-app-for-containers)
-      * [Azure Function App](#azure-function-app)
-      * [CircleCI](#circleci)
-      * [Docker Hub](#docker-hub)
-      * [DNS](#dns)
-   * [Troubleshooting](#troubleshooting)
 
 NRCAN
 ------
@@ -149,4 +140,116 @@ Troubleshooting
 
 Download all logs as a zip:
 `az webapp log download --resource-group MyGroup --name AppName`
+
+## ---------------------------------------------------------------------
+
+[![CircleCI](https://circleci.com/gh/cds-snc/nrcan-infra.svg?style=svg)](https://circleci.com/gh/cds-snc/nrcan-infra)
+
+# RNCan
+
+La documentation de déploiement pour l’API de RNCan, le point d'extrémité et l’extracteur.
+
+## Configuration
+
+### Configuration d'Azure 
+
+Utilisez l’identifiant d’inscription approprié 
+```
+az account set -s "my subscription name"
+```
+Créez un groupe de ressources :
+```
+az group create --name MyGroup -l canadaeast
+```
+Établissez le nom d’application 
+```
+appName="nrcanapi"
+```
+Créez une application du domaine administratif (AD) d’Azure 
+```
+az ad app create \
+    --display-name $appName \
+    --homepage "https://energuideapi.ca" \
+    --identifier-uris [https://energuideapi.ca](https://energuideapi.ca)
+```
+Obtenez l’identifiant (ID) de l’application 
+```
+appId=$(az ad app list --display-name $appName --query [].appId -o tsv)
+```
+Définissez un mot de passe 
+```
+spPassword="SecurePassword123"
+```
+
+Maintenant créez le principal du service et limitez-le au groupe de ressources que vous avez créé ci-dessus. 
+
+```
+az ad sp create-for-rbac --name $appId --password $spPassword \
+                --role contributor \
+                --scopes /subscriptions/$subscriptionId/resourceGroups/MyGroup
+```
+
+Créez un plan de services 
+
+```
+az appservice plan create -g NRCanGroup -n webapplinux --is-linux -l canadaeast
+```
+
+## Application Web Azure pour les conteneurs 
+
+Connectez-vous au principal du service
+
+```
+az login --service-principal -u sp-id --tenant tenant-id
+```
+
+L’application Web Azure pour les conteneurs est créée en utilisant un modèle de gestionnaire de ressource d’Azure (ARM) appelé deploy_api.json. Le modèle devrait être exécuté comme ceci :
+```
+az group deployment create -n AppName --resource-group MyGroup --template-file deploy_api.json
+```
+Le modèle demandera ceci : identifiant du plan de service pour l’application, nom de l’application, l’image du menu fixe, le nom de la collection, chaîne de connexion, nom de bases de données, et une clé de l’API. 
+
+* Permettre le déploiement continu 
+
+az webapp deployment container config -n AppName -g ResourceGroupName -e true
+```
+{
+  "CI_CD_URL": "https://$nrcan123252637:PASSWORDHERE@nrcan123252637.scm.azurewebsites.net/docker/hook",
+  "DOCKER_ENABLE_CI": true
+}
+```
+
+## Fonction de l’application d’Azure 
+
+L’extracteur du point d’extrémité fonctionne comme une fonction de l’application Azure. Il existe un modèle de gestionnaire de ressource d’Azure (ARM) appelé deploy_etl.json qui installera la fonction de service pour vous. Vous devrez spécifier le nom de l’application, l’image du menu fixe, et la chaîne de connexion du stockage.
+L’ETC fonctionne aussi comme une fonction de l’application Azure. Il existe un modèle ARM appelé deploy_etl.json qui installera la fonction de l’application. Vous devrez spécifier le nom de l’application et l’image du menu fixe.
+
+## CircleCI
+Nous utilisons le CircleCI pour exécuter l’intégration continue et le déploiement continu de la logithèque de référence de l’API du RNCan. Il y a un travail appelé deploy en .circle/config.yml qui contrôle le programme de construction et de déploiement de l’image Docker. Pour chaque sauvegarde à la branche maîtresse (master), les travaux de deploy_api et de deploy_etl construiront une image Docker et le pousseront au Docker Hub avec l’étiquette « latest » ainsi que l’algorithme de hachage sécurisé du dernier « commit ».
+
+## Hub de Docker
+
+Lorsqu’une nouvelle image arrive au hub de Docker, un rappel Web est envoyé à Azure et le service d’application d’Azure (App Service) pour les conteneurs téléchargeront et déploieront la « dernière » image.
+
+Pour obtenir l'identifiant du rappel Web :
+
+az webapp deployment container show-cd-url -n appName -g MyGroup
+```
+{
+  "CI_CD_URL": "https://$appName:PASSWORDHERE@appName.scm.azurewebsites.net/docker/hook",
+  "DOCKER_ENABLE_CI": true
+}
+```
+
+Pour ajouter le CI_CD_URL à votre logithèque de référence du menu fixe : Cliquez sur rappels Web (WebHooks), et ajoutez votre URL au rappel Web.
+
+Lorsqu’une nouvelle image arrive au hub de Docker, le menu fixe envoie un rappel Web aux ressources d’Azure de RNCan appropriées.
+
+## Système de nom de domaine (DNS)
+
+Configurez un nom du DNS personnalisé : dans le portail, ouvrez la ressource de l’application, cliquez sur « domaines personnalisés », cliquez « + Ajouter le nom de l’hôte », entrez votre nom de l’hôte personnalisé. Vous devez créer un enregistrement CNAME ou A avant d’ajouter le domaine personnalisé. (Cela devrait être ajouté au modèle ARM)
+
+## Résolution des problèmes 
+Téléchargez tous les journaux sous forme d’un zip : az webapp log download --resource-group MyGroup --name AppName
+
 
